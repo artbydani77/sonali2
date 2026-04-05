@@ -7,16 +7,16 @@ import { ShoppingCart, Menu, X, Sparkles } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 
 const navLinks = [
-  { href: '/',         label: 'Home',    color: 'hover:text-party-red' },
-  { href: '/products', label: 'Shop',    color: 'hover:text-party-orange' },
-  { href: '/about',    label: 'About',   color: 'hover:text-party-blue' },
-  { href: '/contact',  label: 'Contact', color: 'hover:text-party-green' },
+  { href: '/', label: 'Home', color: 'hover:text-party-red' },
+  { href: '/products', label: 'Shop', color: 'hover:text-party-orange' },
+  { href: '/about', label: 'About', color: 'hover:text-party-blue' },
+  { href: '/contact', label: 'Contact', color: 'hover:text-party-green' },
 ]
 
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false)
-  const [mobileOpen,  setMobileOpen]  = useState(false)
-  const { totalItems, toggleCart }    = useCart()
+  const [scrolled, setScrolled] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const { totalItems, toggleCart } = useCart()
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20)
@@ -30,26 +30,25 @@ export default function Navbar() {
         initial={{ y: -80 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          scrolled
-            ? 'bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.08)] border-b-2 border-party-red/10'
-            : 'bg-white/80 backdrop-blur-sm'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
+          ? 'bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.08)] border-b-2 border-party-red/10'
+          : 'bg-white/80 backdrop-blur-sm'
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-18 py-3">
 
             {/* ── Logo ──────────────────────────────────── */}
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="relative w-10 h-10">
-                {/* Spinning ring */}
-                <div className="absolute inset-0 rounded-full border-2 border-dashed border-party-red/40 animate-spin-slow" />
-                <div className="absolute inset-1 rounded-full bg-gradient-to-br from-party-red via-party-orange to-party-yellow flex items-center justify-center shadow-party">
-                  <Sparkles className="w-4 h-4 text-white" />
-                </div>
+            <Link href="/" className="flex items-center gap-3 group transition-transform hover:scale-105 active:scale-95">
+              <div className="relative h-12 w-auto aspect-square md:h-14">
+                <img
+                  src="/logo.jpg"
+                  alt="Sonali Occasions Logo"
+                  className="h-full w-full object-contain"
+                />
               </div>
-              <div className="flex flex-col leading-none">
-                <span className="font-brand text-2xl text-party-red tracking-tight group-hover:scale-105 transition-transform origin-left">
+              <div className="hidden sm:flex flex-col leading-none">
+                <span className="font-brand text-2xl text-party-red tracking-tight">
                   Sonali
                 </span>
                 <span className="font-display text-[10px] font-800 tracking-[0.18em] text-ink/50 uppercase -mt-0.5">
