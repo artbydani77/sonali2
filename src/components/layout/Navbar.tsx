@@ -7,133 +7,146 @@ import { ShoppingCart, Menu, X, Sparkles } from 'lucide-react'
 import { useCart } from '@/context/CartContext'
 
 const navLinks = [
-  { href: '/', label: 'Home' },
-  { href: '/products', label: 'Shop' },
-  { href: '/about', label: 'About' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/',         label: 'Home',    color: 'hover:text-party-red' },
+  { href: '/products', label: 'Shop',    color: 'hover:text-party-orange' },
+  { href: '/about',    label: 'About',   color: 'hover:text-party-blue' },
+  { href: '/contact',  label: 'Contact', color: 'hover:text-party-green' },
 ]
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const { totalItems, toggleCart } = useCart()
+  const [scrolled,    setScrolled]    = useState(false)
+  const [mobileOpen,  setMobileOpen]  = useState(false)
+  const { totalItems, toggleCart }    = useCart()
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 30)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    const fn = () => setScrolled(window.scrollY > 20)
+    window.addEventListener('scroll', fn)
+    return () => window.removeEventListener('scroll', fn)
   }, [])
 
   return (
     <>
       <motion.nav
-        initial={{ y: -100 }}
+        initial={{ y: -80 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut' }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
-            ? 'bg-[#030208]/95 backdrop-blur-xl border-b border-amber-500/20 shadow-[0_4px_30px_rgba(245,158,11,0.1)]'
-            : 'bg-transparent'
+            ? 'bg-white/95 backdrop-blur-md shadow-[0_2px_20px_rgba(0,0,0,0.08)] border-b-2 border-party-red/10'
+            : 'bg-white/80 backdrop-blur-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
-            {/* Logo */}
-            <Link href="/" className="flex items-center gap-2 group">
-              <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center glow-gold group-hover:scale-110 transition-transform duration-300">
-                  <Sparkles className="w-5 h-5 text-white" />
+          <div className="flex items-center justify-between h-18 py-3">
+
+            {/* ── Logo ──────────────────────────────────── */}
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="relative w-10 h-10">
+                {/* Spinning ring */}
+                <div className="absolute inset-0 rounded-full border-2 border-dashed border-party-red/40 animate-spin-slow" />
+                <div className="absolute inset-1 rounded-full bg-gradient-to-br from-party-red via-party-orange to-party-yellow flex items-center justify-center shadow-party">
+                  <Sparkles className="w-4 h-4 text-white" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-rose-500 animate-pulse" />
               </div>
-              <div>
-                <div className="font-display text-xl font-bold text-gold-gradient leading-none">
+              <div className="flex flex-col leading-none">
+                <span className="font-brand text-2xl text-party-red tracking-tight group-hover:scale-105 transition-transform origin-left">
                   Sonali
-                </div>
-                <div className="text-[10px] tracking-[0.2em] text-amber-400/70 uppercase leading-none mt-0.5">
+                </span>
+                <span className="font-display text-[10px] font-800 tracking-[0.18em] text-ink/50 uppercase -mt-0.5">
                   Occasions
-                </div>
+                </span>
               </div>
             </Link>
 
-            {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-8">
+            {/* ── Desktop links ─────────────────────────── */}
+            <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white/70 hover:text-amber-400 transition-colors duration-300 text-sm font-medium tracking-wide relative group"
+                  className={`px-4 py-2 rounded-full font-display font-700 text-sm text-ink/70 transition-all duration-200 ${link.color} hover:bg-gray-50`}
                 >
                   {link.label}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-amber-400 group-hover:w-full transition-all duration-300" />
                 </Link>
               ))}
             </div>
 
-            {/* Right side */}
-            <div className="flex items-center gap-4">
+            {/* ── Right actions ─────────────────────────── */}
+            <div className="flex items-center gap-3">
               <button
                 onClick={toggleCart}
-                className="relative p-2 text-white/70 hover:text-amber-400 transition-colors duration-300 group"
-                aria-label="Cart"
+                className="relative p-2.5 rounded-full hover:bg-red-50 transition-colors group"
+                aria-label="Open cart"
               >
-                <ShoppingCart className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" />
-                {totalItems > 0 && (
-                  <motion.span
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    className="absolute -top-1 -right-1 w-5 h-5 bg-rose-500 text-white text-xs rounded-full flex items-center justify-center font-bold glow-crimson"
-                  >
-                    {totalItems}
-                  </motion.span>
-                )}
+                <ShoppingCart className="w-5 h-5 text-ink/70 group-hover:text-party-red transition-colors" />
+                <AnimatePresence>
+                  {totalItems > 0 && (
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      exit={{ scale: 0 }}
+                      transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+                      className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-party-red text-white text-[10px] font-display font-800 rounded-full flex items-center justify-center shadow-party"
+                    >
+                      {totalItems}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
               </button>
 
               <Link
                 href="/products"
-                className="hidden md:block px-5 py-2 bg-gradient-to-r from-amber-500 to-orange-600 text-white text-sm font-semibold rounded-full hover:from-amber-400 hover:to-orange-500 transition-all duration-300 glow-gold hover:shadow-[0_0_30px_rgba(245,158,11,0.6)]"
+                className="hidden md:block btn btn-red text-sm py-2.5 px-5"
               >
-                Shop Now
+                Shop Now ✨
               </Link>
 
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="md:hidden p-2 text-white/70 hover:text-amber-400 transition-colors"
+                className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
               >
-                {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileOpen
+                  ? <X className="w-5 h-5 text-ink" />
+                  : <Menu className="w-5 h-5 text-ink" />}
               </button>
             </div>
           </div>
         </div>
       </motion.nav>
 
-      {/* Mobile menu */}
+      {/* ── Mobile menu ─────────────────────────────── */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="fixed top-20 left-0 right-0 z-40 bg-[#030208]/98 backdrop-blur-xl border-b border-amber-500/20 md:hidden"
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed top-[72px] left-0 right-0 z-40 bg-white border-b-2 border-party-red/10 shadow-lg md:hidden"
           >
-            <div className="px-6 py-6 flex flex-col gap-4">
-              {navLinks.map((link) => (
-                <Link
+            <div className="max-w-7xl mx-auto px-4 py-5 flex flex-col gap-1">
+              {navLinks.map((link, i) => (
+                <motion.div
                   key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="text-white/80 hover:text-amber-400 text-lg font-medium transition-colors py-2 border-b border-white/5"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: i * 0.06 }}
                 >
-                  {link.label}
-                </Link>
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="flex items-center px-4 py-3 rounded-2xl font-display font-700 text-ink/80 hover:bg-red-50 hover:text-party-red transition-all"
+                  >
+                    {link.label}
+                  </Link>
+                </motion.div>
               ))}
               <Link
                 href="/products"
                 onClick={() => setMobileOpen(false)}
-                className="mt-2 px-5 py-3 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-semibold rounded-full text-center"
+                className="btn btn-red mt-2 justify-center"
               >
-                Shop Now
+                Shop Now ✨
               </Link>
             </div>
           </motion.div>

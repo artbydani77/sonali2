@@ -3,21 +3,29 @@
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, SlidersHorizontal, X } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import { products, categories } from '@/lib/data'
 import ProductCard from '@/components/ui/ProductCard'
+
+const catBtnActive: Record<string, string> = {
+  all:              'bg-ink text-white',
+  fireworks:        'bg-party-red text-white',
+  'helium-balloons':'bg-party-pink text-white',
+  'ice-fountains':  'bg-party-teal text-white',
+  'smoke-flares':   'bg-party-purple text-white',
+  perfumes:         'bg-party-orange text-white',
+  gifts:            'bg-party-green text-white',
+}
 
 function ProductsContent() {
   const searchParams = useSearchParams()
   const catParam = searchParams.get('cat')
 
-  const [activeCategory, setActiveCategory] = useState<string>('all')
-  const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('featured')
+  const [activeCategory, setActiveCategory] = useState('all')
+  const [searchQuery,    setSearchQuery]    = useState('')
+  const [sortBy,         setSortBy]         = useState('featured')
 
-  useEffect(() => {
-    if (catParam) setActiveCategory(catParam)
-  }, [catParam])
+  useEffect(() => { if (catParam) setActiveCategory(catParam) }, [catParam])
 
   const filtered = products
     .filter(p => activeCategory === 'all' || p.category === activeCategory)
@@ -27,80 +35,70 @@ function ProductsContent() {
       p.description.toLowerCase().includes(searchQuery.toLowerCase())
     )
     .sort((a, b) => {
-      if (sortBy === 'price-asc') return a.price - b.price
+      if (sortBy === 'price-asc')  return a.price - b.price
       if (sortBy === 'price-desc') return b.price - a.price
-      if (sortBy === 'rating') return b.rating - a.rating
+      if (sortBy === 'rating')     return b.rating - a.rating
       return 0
     })
 
   const activeCat = categories.find(c => c.slug === activeCategory)
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-20 bg-cream">
       {/* Header */}
-      <section className="relative py-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial from-[#1a0a30] via-[#0a0515] to-[#030208]" />
-        <div className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(ellipse at 70% 50%, rgba(245,158,11,0.3) 0%, transparent 60%)' }}
-        />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
+      <section className="relative py-16 overflow-hidden bg-gradient-to-b from-blue-50 to-cream">
+        <div className="absolute top-4 right-8 text-6xl opacity-20 animate-float-slow select-none">🛍️</div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <motion.span
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 glass-gold rounded-full px-4 py-2 text-amber-400 text-sm font-medium mb-6"
+            className="section-label bg-blue-100 text-party-blue inline-flex mb-5"
           >
-            {activeCat ? activeCat.icon : '🛍️'}&nbsp;
-            {activeCat ? activeCat.name : 'All Products'}
-          </motion.div>
+            {activeCat ? activeCat.icon : '🛍️'} {activeCat ? activeCat.name : 'All Products'}
+          </motion.span>
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="font-display text-4xl sm:text-6xl font-bold text-white mb-4"
+            className="font-display font-900 text-5xl sm:text-6xl text-ink mb-3"
           >
-            {activeCat ? (
-              <><span className="text-gold-gradient">{activeCat.name}</span></>
-            ) : (
-              <>Our <span className="text-gold-gradient">Shop</span></>
-            )}
+            {activeCat
+              ? <><span className="text-gradient-blue">{activeCat.name}</span></>
+              : <>Our <span className="text-gradient-blue">Shop</span></>}
           </motion.h1>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-white/50 text-lg max-w-xl mx-auto"
+            className="text-ink/50 text-lg max-w-lg mx-auto"
           >
             {activeCat ? activeCat.description : 'Everything you need to make your celebration unforgettable'}
           </motion.p>
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="sticky top-20 z-30 py-4 border-b border-white/5"
-        style={{ background: 'rgba(3,2,8,0.95)', backdropFilter: 'blur(20px)' }}
-      >
+      {/* Sticky filter bar */}
+      <div className="sticky top-[72px] z-30 bg-white/95 backdrop-blur-md border-b-2 border-gray-100 py-3 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+          <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
             {/* Category pills */}
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={() => setActiveCategory('all')}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                  activeCategory === 'all'
-                    ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white glow-gold'
-                    : 'glass text-white/60 hover:text-white hover:border-amber-400/30'
+                className={`px-4 py-2 rounded-full font-display font-700 text-sm transition-all duration-200 border-2 ${
+                  activeCategory === 'all' ? catBtnActive.all + ' border-ink' : 'bg-white text-ink/60 border-gray-200 hover:border-gray-300'
                 }`}
               >
-                All
+                All 🎊
               </button>
               {categories.map(cat => (
                 <button
                   key={cat.slug}
                   onClick={() => setActiveCategory(cat.slug)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-1.5 ${
+                  className={`px-3 sm:px-4 py-2 rounded-full font-display font-700 text-sm transition-all duration-200 border-2 flex items-center gap-1.5 ${
                     activeCategory === cat.slug
-                      ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white glow-gold'
-                      : 'glass text-white/60 hover:text-white hover:border-amber-400/30'
+                      ? (catBtnActive[cat.slug] || 'bg-ink text-white') + ' border-transparent'
+                      : 'bg-white text-ink/60 border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   <span>{cat.icon}</span>
@@ -110,57 +108,54 @@ function ProductsContent() {
             </div>
 
             {/* Search + Sort */}
-            <div className="flex gap-3 w-full sm:w-auto">
-              <div className="relative flex-1 sm:w-56">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30" />
+            <div className="flex gap-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:w-52">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ink/30" />
                 <input
                   type="text"
-                  placeholder="Search products..."
+                  placeholder="Search..."
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  className="w-full pl-9 pr-4 py-2.5 rounded-full glass text-white/80 placeholder-white/30 text-sm focus:outline-none focus:border-amber-400/40 border border-white/10 bg-transparent"
+                  className="input-field pl-9 py-2.5 text-sm rounded-full"
                 />
                 {searchQuery && (
-                  <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white">
-                    <X className="w-3 h-3" />
+                  <button onClick={() => setSearchQuery('')} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink/30 hover:text-ink">
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 )}
               </div>
               <select
                 value={sortBy}
                 onChange={e => setSortBy(e.target.value)}
-                className="px-4 py-2.5 rounded-full glass text-white/60 text-sm focus:outline-none border border-white/10 bg-[#0d0820] cursor-pointer"
+                className="input-field rounded-full py-2.5 text-sm w-auto px-4 cursor-pointer"
               >
                 <option value="featured">Featured</option>
-                <option value="price-asc">Price: Low–High</option>
-                <option value="price-desc">Price: High–Low</option>
+                <option value="price-asc">Price ↑</option>
+                <option value="price-desc">Price ↓</option>
                 <option value="rating">Top Rated</option>
               </select>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* Products grid */}
-      <section className="py-12">
+      {/* Grid */}
+      <section className="py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-8">
-            <p className="text-white/40 text-sm">
-              {filtered.length} product{filtered.length !== 1 ? 's' : ''} found
-            </p>
-          </div>
+          <p className="text-ink/40 text-sm mb-6 font-medium">{filtered.length} product{filtered.length !== 1 ? 's' : ''}</p>
 
           <AnimatePresence mode="wait">
             {filtered.length === 0 ? (
               <motion.div
+                key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="text-center py-24"
               >
-                <div className="text-6xl mb-4">🔍</div>
-                <h3 className="font-display text-2xl font-semibold text-white/50 mb-2">No products found</h3>
-                <p className="text-white/30">Try a different search or category</p>
+                <div className="text-6xl mb-4 animate-float-slow">🔍</div>
+                <h3 className="font-display font-800 text-2xl text-ink/50 mb-2">No products found</h3>
+                <p className="text-ink/30">Try a different search or category</p>
               </motion.div>
             ) : (
               <motion.div
@@ -168,7 +163,7 @@ function ProductsContent() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
               >
                 {filtered.map(product => (
                   <ProductCard key={product.id} product={product} />
@@ -184,7 +179,11 @@ function ProductsContent() {
 
 export default function ProductsPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen pt-20 flex items-center justify-center text-white/40">Loading...</div>}>
+    <Suspense fallback={
+      <div className="min-h-screen pt-20 flex items-center justify-center">
+        <div className="text-4xl animate-float-slow">🎉</div>
+      </div>
+    }>
       <ProductsContent />
     </Suspense>
   )

@@ -5,13 +5,12 @@ import { motion } from 'framer-motion'
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, Facebook, Instagram } from 'lucide-react'
 
 export default function ContactPage() {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [form,      setForm]      = useState({ name: '', email: '', subject: '', message: '' })
   const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [loading,   setLoading]   = useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm(f => ({ ...f, [e.target.name]: e.target.value }))
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,203 +21,123 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-20 bg-cream">
       {/* Header */}
-      <section className="relative py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-radial from-[#1a0a30] via-[#0a0515] to-[#030208]" />
-        <div className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(ellipse at 40% 50%, rgba(245,158,11,0.3) 0%, transparent 60%)' }}
-        />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 glass-gold rounded-full px-4 py-2 text-amber-400 text-sm font-medium mb-6"
-          >
-            📍 Find Us
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="font-display text-5xl sm:text-6xl font-bold text-white mb-4"
-          >
-            Get in <span className="text-gold-gradient">Touch</span>
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-white/50 text-lg max-w-xl mx-auto"
-          >
-            Have a question, want to place a large order, or just want to say hello? We&apos;d love to hear from you.
-          </motion.p>
+      <section className="relative py-16 overflow-hidden bg-gradient-to-b from-teal-50 to-cream">
+        <div className="absolute top-4 right-8 text-6xl opacity-20 animate-float-slow select-none">📬</div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+          <motion.span initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
+            className="section-label bg-teal-100 text-party-teal inline-flex mb-5"
+          >📍 Find Us</motion.span>
+          <motion.h1 initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            className="font-display font-900 text-5xl sm:text-6xl text-ink mb-3"
+          >Get in <span className="text-gradient-green">Touch</span></motion.h1>
+          <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="text-ink/50 text-lg max-w-xl mx-auto"
+          >Have a question or want to place a big order? We&apos;d love to hear from you — pop in or drop us a message!</motion.p>
         </div>
       </section>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-          {/* Info */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-2 space-y-6"
-          >
-            <div className="glass rounded-2xl p-6 border border-amber-500/20">
-              <h2 className="font-display text-2xl font-bold text-white mb-6">Store Information</h2>
-              <div className="space-y-5">
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-5 h-5 text-amber-400" />
-                  </div>
-                  <div>
-                    <div className="text-white font-medium text-sm mb-0.5">Address</div>
-                    <div className="text-white/50 text-sm leading-relaxed">28 Bilton Road<br />Perivale, London<br />UB6 7DS</div>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-5 h-5 text-amber-400" />
-                  </div>
-                  <div>
-                    <div className="text-white font-medium text-sm mb-0.5">Phone</div>
-                    <div className="text-white/50 text-sm">+44 20 8998 6525</div>
-                    <div className="text-white/50 text-sm">+44 7931 570672</div>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-5 h-5 text-amber-400" />
-                  </div>
-                  <div>
-                    <div className="text-white font-medium text-sm mb-0.5">Email</div>
-                    <div className="text-white/50 text-sm">sonalioccasions@gmail.com</div>
-                  </div>
-                </div>
-                <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-xl bg-amber-500/20 flex items-center justify-center flex-shrink-0">
-                    <Clock className="w-5 h-5 text-amber-400" />
-                  </div>
-                  <div>
-                    <div className="text-white font-medium text-sm mb-1">Opening Hours</div>
-                    <div className="space-y-0.5 text-sm text-white/50">
-                      <div className="flex justify-between gap-6"><span>Mon–Fri</span><span>9:00am – 6:00pm</span></div>
-                      <div className="flex justify-between gap-6"><span>Saturday</span><span>9:00am – 3:00pm</span></div>
-                      <div className="flex justify-between gap-6"><span>Sunday</span><span>9:30am – 5:00pm</span></div>
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+
+          {/* Info column */}
+          <motion.div initial={{ opacity: 0, x: -28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="lg:col-span-2 space-y-5">
+            <div className="bg-white rounded-3xl p-6 border-2 border-gray-100 shadow-card">
+              <h2 className="font-display font-800 text-xl text-ink mb-5">Store Information</h2>
+              <div className="space-y-4">
+                {[
+                  { icon: MapPin, color: 'bg-party-red', content: <span>28 Bilton Road<br />Perivale, London, UB6 7DS</span>, label: 'Address' },
+                  { icon: Phone,  color: 'bg-party-green', content: <div><div>+44 20 8998 6525</div><div>+44 7931 570672</div></div>, label: 'Phone' },
+                  { icon: Mail,   color: 'bg-party-blue',  content: <span>sonalioccasions@gmail.com</span>, label: 'Email' },
+                  { icon: Clock,  color: 'bg-party-orange', content:
+                    <div className="space-y-0.5">
+                      <div className="flex justify-between gap-8"><span>Mon–Fri</span><span>9:00am–6:00pm</span></div>
+                      <div className="flex justify-between gap-8"><span>Saturday</span><span>9:00am–3:00pm</span></div>
+                      <div className="flex justify-between gap-8"><span>Sunday</span><span>9:30am–5:00pm</span></div>
+                    </div>,
+                    label: 'Hours'
+                  },
+                ].map(item => (
+                  <div key={item.label} className="flex gap-3.5">
+                    <div className={`w-9 h-9 ${item.color} rounded-xl flex items-center justify-center flex-shrink-0 shadow-sm`}>
+                      <item.icon className="w-4 h-4 text-white" />
+                    </div>
+                    <div>
+                      <div className="font-display font-700 text-sm text-ink mb-0.5">{item.label}</div>
+                      <div className="text-ink/50 text-sm leading-relaxed">{item.content}</div>
                     </div>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Social */}
-            <div className="glass rounded-2xl p-6 border border-white/10">
-              <h3 className="text-white font-semibold mb-4">Follow Us</h3>
+            {/* Socials */}
+            <div className="bg-white rounded-3xl p-5 border-2 border-gray-100 shadow-card">
+              <h3 className="font-display font-700 text-ink mb-3">Follow Us 📱</h3>
               <div className="flex gap-3">
-                <a
-                  href="https://www.facebook.com/SonaliOccasions/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 flex-1 p-3 rounded-xl glass hover:border-blue-400/30 hover:text-blue-400 text-white/50 transition-all text-sm"
+                <a href="https://www.facebook.com/SonaliOccasions/" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 flex-1 p-3 rounded-2xl bg-blue-50 hover:bg-blue-100 text-blue-700 transition-colors text-sm font-display font-700"
                 >
-                  <Facebook className="w-5 h-5" />
-                  Facebook
+                  <Facebook className="w-4 h-4" /> Facebook
                 </a>
-                <a
-                  href="https://www.instagram.com/sonali_occasions/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 flex-1 p-3 rounded-xl glass hover:border-pink-400/30 hover:text-pink-400 text-white/50 transition-all text-sm"
+                <a href="https://www.instagram.com/sonali_occasions/" target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2.5 flex-1 p-3 rounded-2xl bg-pink-50 hover:bg-pink-100 text-pink-600 transition-colors text-sm font-display font-700"
                 >
-                  <Instagram className="w-5 h-5" />
-                  Instagram
+                  <Instagram className="w-4 h-4" /> Instagram
                 </a>
               </div>
             </div>
 
-            {/* Map embed */}
-            <div className="glass rounded-2xl overflow-hidden border border-white/10">
+            {/* Map */}
+            <div className="rounded-3xl overflow-hidden border-2 border-gray-100 shadow-card">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2482.5!2d-0.326!3d51.535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761074a4ef7c0b%3A0x0!2s28+Bilton+Rd%2C+Perivale%2C+Greenford+UB6+7DS!5e0!3m2!1sen!2suk!4v1700000000000!5m2!1sen!2suk"
-                width="100%"
-                height="200"
-                style={{ border: 0, filter: 'invert(90%) hue-rotate(180deg)' }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
+                width="100%" height="200"
+                style={{ border: 0 }}
+                allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"
                 title="Sonali Occasions location"
               />
             </div>
           </motion.div>
 
           {/* Form */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
-            className="lg:col-span-3"
-          >
-            <div className="glass rounded-2xl p-8 border border-white/10">
+          <motion.div initial={{ opacity: 0, x: 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.5 }} className="lg:col-span-3">
+            <div className="bg-white rounded-3xl p-8 border-2 border-gray-100 shadow-card">
               {submitted ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center py-16 text-center"
+                <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center py-14 text-center"
                 >
-                  <div className="w-20 h-20 rounded-full bg-emerald-500/20 flex items-center justify-center mb-6">
-                    <CheckCircle className="w-10 h-10 text-emerald-400" />
+                  <div className="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center mb-5">
+                    <CheckCircle className="w-10 h-10 text-party-green" />
                   </div>
-                  <h3 className="font-display text-3xl font-bold text-white mb-3">Message Sent! 🎉</h3>
-                  <p className="text-white/50 max-w-sm">
-                    Thank you for reaching out. We&apos;ll get back to you within 24 hours.
-                  </p>
-                  <button
-                    onClick={() => { setSubmitted(false); setForm({ name: '', email: '', subject: '', message: '' }) }}
-                    className="mt-8 px-6 py-3 glass text-white/70 rounded-full hover:text-white transition-colors text-sm"
-                  >
-                    Send another message
-                  </button>
+                  <div className="text-4xl mb-3 animate-pop-in">🎉</div>
+                  <h3 className="font-display font-900 text-2xl text-ink mb-2">Message Sent!</h3>
+                  <p className="text-ink/50 max-w-xs">We&apos;ll get back to you within 24 hours. Can&apos;t wait to help!</p>
+                  <button onClick={() => { setSubmitted(false); setForm({ name:'', email:'', subject:'', message:'' }) }}
+                    className="mt-7 btn btn-outline text-sm"
+                  >Send another message</button>
                 </motion.div>
               ) : (
                 <>
-                  <h2 className="font-display text-2xl font-bold text-white mb-8">Send Us a Message</h2>
-                  <form onSubmit={handleSubmit} className="space-y-5">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                  <h2 className="font-display font-800 text-2xl text-ink mb-6">Send Us a Message 💬</h2>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-white/60 text-sm font-medium mb-2">Your Name *</label>
-                        <input
-                          required
-                          type="text"
-                          name="name"
-                          value={form.name}
-                          onChange={handleChange}
-                          placeholder="Jane Smith"
-                          className="w-full px-4 py-3 glass rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-amber-400/50 border border-white/10 bg-transparent"
-                        />
+                        <label className="block text-ink/60 text-sm font-display font-700 mb-1.5">Your Name *</label>
+                        <input required type="text" name="name" value={form.name} onChange={handleChange}
+                          placeholder="Jane Smith" className="input-field" />
                       </div>
                       <div>
-                        <label className="block text-white/60 text-sm font-medium mb-2">Email Address *</label>
-                        <input
-                          required
-                          type="email"
-                          name="email"
-                          value={form.email}
-                          onChange={handleChange}
-                          placeholder="jane@example.com"
-                          className="w-full px-4 py-3 glass rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-amber-400/50 border border-white/10 bg-transparent"
-                        />
+                        <label className="block text-ink/60 text-sm font-display font-700 mb-1.5">Email *</label>
+                        <input required type="email" name="email" value={form.email} onChange={handleChange}
+                          placeholder="jane@example.com" className="input-field" />
                       </div>
                     </div>
                     <div>
-                      <label className="block text-white/60 text-sm font-medium mb-2">Subject</label>
-                      <select
-                        name="subject"
-                        value={form.subject}
-                        onChange={handleChange}
-                        className="w-full px-4 py-3 rounded-xl text-white/70 text-sm focus:outline-none focus:border-amber-400/50 border border-white/10 bg-[#0d0820] cursor-pointer"
-                      >
-                        <option value="">Select a subject...</option>
+                      <label className="block text-ink/60 text-sm font-display font-700 mb-1.5">Subject</label>
+                      <select name="subject" value={form.subject} onChange={handleChange} className="input-field cursor-pointer">
+                        <option value="">Select a topic...</option>
                         <option value="order">Order enquiry</option>
                         <option value="fireworks">Fireworks advice</option>
                         <option value="balloons">Balloon arrangements</option>
@@ -228,34 +147,18 @@ export default function ContactPage() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-white/60 text-sm font-medium mb-2">Message *</label>
-                      <textarea
-                        required
-                        name="message"
-                        value={form.message}
-                        onChange={handleChange}
-                        placeholder="Tell us how we can help..."
-                        rows={6}
-                        className="w-full px-4 py-3 glass rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-amber-400/50 border border-white/10 bg-transparent resize-none"
+                      <label className="block text-ink/60 text-sm font-display font-700 mb-1.5">Message *</label>
+                      <textarea required name="message" value={form.message} onChange={handleChange}
+                        placeholder="Tell us how we can help..." rows={6}
+                        className="input-field resize-none"
                       />
                     </div>
-                    <motion.button
-                      type="submit"
-                      whileTap={{ scale: 0.97 }}
-                      disabled={loading}
-                      className="w-full flex items-center justify-center gap-3 py-4 bg-gradient-to-r from-amber-500 to-orange-600 text-white font-bold rounded-full hover:from-amber-400 hover:to-orange-500 transition-all duration-300 glow-gold disabled:opacity-70 disabled:cursor-not-allowed"
+                    <motion.button type="submit" whileTap={{ scale: 0.97 }} disabled={loading}
+                      className="btn btn-red w-full justify-center text-base py-4 disabled:opacity-60"
                     >
-                      {loading ? (
-                        <>
-                          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          Sending...
-                        </>
-                      ) : (
-                        <>
-                          <Send className="w-5 h-5" />
-                          Send Message
-                        </>
-                      )}
+                      {loading
+                        ? <><div className="w-5 h-5 border-2 border-white/40 border-t-white rounded-full animate-spin" />Sending...</>
+                        : <><Send className="w-5 h-5" /> Send Message</>}
                     </motion.button>
                   </form>
                 </>
